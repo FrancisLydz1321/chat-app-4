@@ -8,7 +8,7 @@ class NavigationService {
   // GlobalKey<NavigatorState>? _navigatorKey; // don't know why late is not initialize go to main()
 
   // late GlobalKey<NavigatorState> _navigatorKey;
-  late GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
+  late GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>(); // @@@ REVAMPED @@@
 
 
   final Map<String, Widget Function(BuildContext)> _routes = { // root route

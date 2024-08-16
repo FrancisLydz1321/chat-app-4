@@ -1,4 +1,5 @@
 import 'package:chat_app/pages/login_pages.dart';
+import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/navigation_service.dart';
 import 'package:chat_app/utils.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
@@ -43,8 +44,11 @@ class MyApp extends StatelessWidget {
   
   late NavigationService _navigationService; // because it errors in navigation_service.dart late is placed here
 
+  late AuthService _authService = AuthService(); // late AuthService _authService @@@ REVAMPED @@@
+
   MyApp({super.key}) {
     _navigationService = _getIt.get<NavigationService>();
+    _authService = _getIt.get<AuthService>();
   }
 
   // This widget is the root of your application.
@@ -60,7 +64,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.montserratTextTheme(),
       ),
       // home: LoginPage(),
-      initialRoute: "/login", 
+      initialRoute: _authService.user != null ? "/home" : "/login", 
       routes: _navigationService.routes,
     );
   }
