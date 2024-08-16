@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 
 class AlertService {
-  final GetIt _getIt = GetIt.instance;
+  final GetIt _getIt = GetIt.instance; // GetIt package
 
   late NavigationService _navigationService; // creating variable
 
@@ -17,7 +17,7 @@ class AlertService {
   void showToast({required String text, IconData icon = Icons.info}) {
     try {
       // quering; Delightful toast
-      DelightToastBar(
+      DelightToastBar( // DelightfulToast package
         autoDismiss: true,
         position: DelightSnackbarPosition.top,
         builder: (context) {

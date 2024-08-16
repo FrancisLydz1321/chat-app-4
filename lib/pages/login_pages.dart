@@ -1,4 +1,5 @@
 import 'package:chat_app/const.dart';
+import 'package:chat_app/services/alert_service.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/navigation_service.dart';
 import 'package:chat_app/widgets/custom_form_field.dart';
@@ -23,6 +24,8 @@ class _LoginPageState extends State<LoginPage> {
 
   late NavigationService _navigationService;
 
+  late AlertService _alertService;
+
   String? email, password;
 
   @override
@@ -30,6 +33,7 @@ class _LoginPageState extends State<LoginPage> {
     super.initState();
     _authService = _getIt.get<AuthService>(); //<instance> == type
     _navigationService = _getIt.get<NavigationService>();
+    _alertService = _getIt.get<AlertService>();
   }
 
   @override
@@ -140,11 +144,18 @@ class _LoginPageState extends State<LoginPage> {
             // print(password);
 
             _loginFormKey.currentState?.save();
-            bool result = await _authService.login(email!, password!); // ! == not going to be empty
+            bool result = await _authService.login(
+                email!, password!); // ! == not going to be empty
             print(result);
             if (result) {
-              _navigationService.pushReplacementNamed("/home"); // why .pushReplacement name? remove the ability to return to log in page
-            } else {}
+              _navigationService.pushReplacementNamed(
+                  "/home"); // why .pushReplacement name? remove the ability to return to log in page
+            } else {
+              _alertService.showToast(
+                text: "Failed to login, Please try again",
+                icon: Icons.error,
+              );
+            }
           }
         },
         color: Theme.of(context).colorScheme.primary,
@@ -163,10 +174,18 @@ class _LoginPageState extends State<LoginPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Text("Don\'t have an account"),
-          Text(
-            " Sign Up",
-            style: TextStyle(fontWeight: FontWeight.w800),
+          const Text("Don\'t have an account"),
+          GestureDetector(
+            onTap: () {
+              _navigationService
+                  .pushNamed("/register"); // navigate to register page
+            },
+            child: const Text(
+              " Sign Up",
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+              ),
+            ),
           ),
         ],
       ),

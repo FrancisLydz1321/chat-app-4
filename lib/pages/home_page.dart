@@ -1,3 +1,4 @@
+import 'package:chat_app/services/alert_service.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/services/navigation_service.dart';
 import 'package:flutter/foundation.dart';
@@ -16,13 +17,14 @@ class _HomePageState extends State<HomePage> {
 
   late AuthService _authService;
   late NavigationService _navigationService;
-
+  late AlertService _alertService;
 
   @override
   void initState() {
     super.initState();
     _navigationService = _getIt.get<NavigationService>();
     _authService = _getIt.get<AuthService>();
+    _alertService = _getIt.get<AlertService>();
   }
 
   @override
@@ -33,9 +35,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           IconButton(
             onPressed: () async {
-              bool result = await _authService.logout();
-              if(result) {
-                _navigationService.pushReplacementNamed("/login");
+              bool result =
+                  await _authService.logout(); // allow user to log out
+              if (result) {
+                // if result is true
+                _alertService.showToast(
+                    text: "Successfully Logged out", icon: Icons.check);
+                _navigationService.pushReplacementNamed(
+                    "/login"); // once logout button is clicked, return to login page
               }
             },
             color: Colors.red,
@@ -43,7 +50,14 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Text("hello World"),
+      body: Column(
+        children: [
+          Text("hello World"),
+          Text("hello World"),
+          Text("hello World"),
+          Text("hello World"),
+        ],
+      ),
     );
   }
 }

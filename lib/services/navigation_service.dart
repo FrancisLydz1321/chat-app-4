@@ -1,5 +1,6 @@
 import 'package:chat_app/pages/home_page.dart';
 import 'package:chat_app/pages/login_pages.dart';
+import 'package:chat_app/pages/register_page.dart';
 import 'package:flutter/material.dart';
 
 class NavigationService {
@@ -12,6 +13,7 @@ class NavigationService {
 
 
   final Map<String, Widget Function(BuildContext)> _routes = { // root route
+    "/register": (context) => RegisterPage(),
     "/login": (context) => LoginPage(),
     "/home": (context) => HomePage(),
   };
