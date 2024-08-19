@@ -17,7 +17,7 @@ class DatabaseService {
               // type safety built in it;
               fromFirestore: (snapshot, _) => UserProfile.fromJson(
                 snapshot.data()!,
-              ),
+              ),  
               toFirestore: (UserProfile, _) => UserProfile.toJson(),
             );
   }
