@@ -34,7 +34,7 @@ class _ChatPageState extends State<ChatPage> {
   late MediaService _mediaService;
   late StorageService _storageService;
 
-  ChatUser? currentUser, otherUser;
+  ChatUser? currentUser, otherUser; // 2 users
 
   @override
   void initState() {
@@ -60,7 +60,9 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.chatUser.name!),
+        title: Text(
+          widget.chatUser.name!,
+        ),
       ),
       body: _buildUI(),
     );
@@ -110,7 +112,8 @@ class _ChatPageState extends State<ChatPage> {
     if (chatMessage.medias?.isNotEmpty ?? false) {
       if (chatMessage.medias!.first.type == MediaType.image) {
         Message message = Message(
-          senderID: chatMessage.user.id,
+          senderID: currentUser!
+              .id, // currentUser!.id, ; chatMessage.user.id **Changed 2:21am
           content: chatMessage.medias!.first.url,
           messageType: MessageType.Image,
           sentAt: Timestamp.fromDate(
@@ -140,19 +143,20 @@ class _ChatPageState extends State<ChatPage> {
     List<ChatMessage> chatMessages = messages.map((m) {
       if (m.messageType == MessageType.Image) {
         return ChatMessage(
-            user: m.senderID == currentUser!.id ? currentUser! : otherUser!,
-            createdAt: m.sentAt!.toDate(),
-            medias: [
-              ChatMedia(
-                url: m.content!,
-                fileName: "",
-                type: MediaType.image,
-              ),
-            ]);
+          user: m.senderID == currentUser!.id ? currentUser! : otherUser!,
+          createdAt: m.sentAt!.toDate(),
+          medias: [
+            ChatMedia(
+              url: m.content!,
+              fileName: "",
+              type: MediaType.image,
+            ),
+          ],
+        );
       } else {
         return ChatMessage(
           user: m.senderID == currentUser!.id ? currentUser! : otherUser!,
-          text: m.content!,
+          text: m.content!, // text: m.content!, // ERROR WONT OUTPUT THE ERROR
           createdAt: m.sentAt!.toDate(),
         );
       }

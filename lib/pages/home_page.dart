@@ -106,12 +106,15 @@ class _HomePageState extends State<HomePage> {
                           user.uid!,
                         );
                       }
-                      _navigationService
-                          .push(MaterialPageRoute(builder: (context) {
-                        return ChatPage(
-                          chatUser: user,
-                        );
-                      }));
+                      _navigationService.push(
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return ChatPage(
+                              chatUser: user,
+                            );
+                          },
+                        ),
+                      );
                     },
                   ),
                 );
