@@ -1,6 +1,7 @@
 // import 'dart:js_interop';
 
 import 'package:chat_app/models/chat.dart';
+import 'package:chat_app/models/message.dart';
 import 'package:chat_app/models/user_profile.dart';
 import 'package:chat_app/services/auth_services.dart';
 import 'package:chat_app/utils.dart';
@@ -75,5 +76,26 @@ class DatabaseService {
     );
 
     await docRef.set(chat);
+  }
+
+  Future<void> sendChatMessage(
+      String uid1, String uid2, Message message) async {
+    String chatID = generateChatID(uid1: uid1, uid2: uid2);
+    final docRef = _chatsCollection!.doc(chatID); // ?
+    await docRef.update({
+      "message": FieldValue.arrayUnion(
+        [
+          message.toJson(),
+        ],
+      ),
+    });
+  }
+
+  Stream<DocumentSnapshot<Chat>> getChatData(String uid1, String uid2) {
+    String chatID = generateChatID(uid1: uid1, uid2: uid2);
+    return _chatsCollection?.doc(chatID).snapshots() as Stream<DocumentSnapshot<Chat>>; 
+
+
+
   }
 }

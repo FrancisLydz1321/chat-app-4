@@ -44,4 +44,8 @@ class NavigationService {
   void goBack() { // function: 3 
     _navigatorKey.currentState?.pop();
   }
+
+  void push(MaterialPageRoute route) {
+    _navigatorKey.currentState?.push(route);
+  }
 }
