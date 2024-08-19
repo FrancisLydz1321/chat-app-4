@@ -126,18 +126,6 @@ class _RegisterPageState extends State<RegisterPage> {
           children: [
             _pfpSelectionField(),
             CustomFormField(
-              hintText: "Email",
-              height: MediaQuery.sizeOf(context).height * .1,
-              validationRegEx: EMAIL_VALIDATION_REGEX,
-              onSaved: (value) {
-                setState(
-                  () {
-                    email = value;
-                  },
-                );
-              },
-            ),
-            CustomFormField(
               hintText: "Name",
               height: MediaQuery.sizeOf(context).height * .1,
               validationRegEx: NAME_VALIDATION_REGEX,
@@ -150,10 +138,34 @@ class _RegisterPageState extends State<RegisterPage> {
               },
             ),
             CustomFormField(
+              hintText: "Email",
+              height: MediaQuery.sizeOf(context).height * .1,
+              validationRegEx: EMAIL_VALIDATION_REGEX,
+              onSaved: (value) {
+                setState(
+                  () {
+                    email = value;
+                  },
+                );
+              },
+            ),
+            // CustomFormField(
+            //   hintText: "Name",
+            //   height: MediaQuery.sizeOf(context).height * .1,
+            //   validationRegEx: NAME_VALIDATION_REGEX,
+            //   onSaved: (value) {
+            //     setState(
+            //       () {
+            //         name = value;
+            //       },
+            //     );
+            //   },
+            // ),
+            CustomFormField(
               hintText: "Password",
               height: MediaQuery.sizeOf(context).height * .1,
               validationRegEx: PASSWORD_VALIDATION_REGEX,
-              obscureText: true,
+              obscureText: true, // hide inputs of a password
               onSaved: (value) {
                 setState(
                   () {
@@ -210,20 +222,33 @@ class _RegisterPageState extends State<RegisterPage> {
                 if (pfpURL != null) {
                   await _databaseService.createUserProfile(
                     userProfile: UserProfile(
-                        uid: _authService.user!.uid,
-                        name: name,
-                        pfpURL: pfpURL),
+                      uid: _authService.user!.uid,
+                      name: name,
+                      pfpURL: pfpURL,
+                    ),
                   );
                   _alertService.showToast(
                     text: "User Registered Successfully",
                     icon: Icons.check,
                   );
+                  _navigationService.goBack();
+                  _navigationService.pushReplacementNamed("/home");
                 }
+                else {
+                  throw Exception("Unable to unable to upload user profile picture");
+                }
+              } 
+              // print(result);
+              else {
+                throw Exception("Unable to register user");
               }
-              print(result);
             }
           } catch (e) {
             print(e);
+            _alertService.showToast(
+              text: "Failed to Register, Please try again!",
+              icon: Icons.error,
+            );
           }
           setState(() {
             // missing #2
