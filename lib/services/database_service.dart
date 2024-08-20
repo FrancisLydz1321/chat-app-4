@@ -84,7 +84,7 @@ class DatabaseService {
     final docRef = _chatsCollection!.doc(chatID); // ?
     await docRef.update(
       {
-        "message": FieldValue.arrayUnion(
+        "messages": FieldValue.arrayUnion( // messages FINALLY FOUND THE ERROR
           [
             message.toJson(),
           ],

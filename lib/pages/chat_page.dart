@@ -93,7 +93,7 @@ class _ChatPageState extends State<ChatPage> {
           );
         }
         return DashChat(
-          messageOptions: MessageOptions(
+          messageOptions: const MessageOptions(
             showOtherUsersAvatar: true,
             showTime: true,
           ),
@@ -108,7 +108,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Future<void> _sendMessage(ChatMessage chatMessage) async {
+  Future<void> _sendMessage(ChatMessage chatMessage) async { // message
     if (chatMessage.medias?.isNotEmpty ?? false) {
       if (chatMessage.medias!.first.type == MediaType.image) {
         Message message = Message(
@@ -141,9 +141,11 @@ class _ChatPageState extends State<ChatPage> {
 
   List<ChatMessage> _generateChatMessagesList(List<Message> messages) {
     List<ChatMessage> chatMessages = messages.map((m) {
+      // loop over messages list array
       if (m.messageType == MessageType.Image) {
         return ChatMessage(
           user: m.senderID == currentUser!.id ? currentUser! : otherUser!,
+          // text: m.content!,
           createdAt: m.sentAt!.toDate(),
           medias: [
             ChatMedia(
@@ -156,7 +158,8 @@ class _ChatPageState extends State<ChatPage> {
       } else {
         return ChatMessage(
           user: m.senderID == currentUser!.id ? currentUser! : otherUser!,
-          text: m.content!, // text: m.content!, // ERROR WONT OUTPUT THE ERROR
+          // text: m.content!, // text: m.content!, // ******ERROR WONT OUTPUT THE CHATS 3:59am
+          text: (m.content!),
           createdAt: m.sentAt!.toDate(),
         );
       }
